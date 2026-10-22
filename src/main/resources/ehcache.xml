@@ -1,0 +1,29 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+    <!-- Regle commune a toutes les regions creees par Hibernate.
+         L'ordre des elements est impose par le schema : expiry avant heap. -->
+    <cache-template name="default">
+        <expiry>
+            <ttl unit="minutes">30</ttl>
+        </expiry>
+        <heap unit="entries">1000</heap>
+    </cache-template>
+
+    <!-- Regions d'entites : l'alias correspond au nom complet de l'entite -->
+    <cache alias="com.example.model.Utilisateur" uses-template="default"/>
+    <cache alias="com.example.model.Salle" uses-template="default"/>
+
+    <!-- Les reservations sont tres volatiles : on les garde peu de temps -->
+    <cache alias="com.example.model.Reservation" uses-template="default">
+        <expiry>
+            <ttl unit="minutes">1</ttl>
+        </expiry>
+    </cache>
+
+    <!-- Regions techniques Hibernate -->
+    <cache alias="default-update-timestamps-region" uses-template="default"/>
+    <cache alias="default-query-results-region" uses-template="default"/>
+
+</config>

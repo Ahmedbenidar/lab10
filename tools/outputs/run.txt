@@ -1,0 +1,69 @@
+
+=== TP CAPSTONE : APPLICATION DE RESERVATION DE SALLES ===
+
+=== 1. MIGRATION DE LA BASE DE DONNEES ===
+Tables presentes avant migration : false
+[INFO ] 18:35:27.654 MigrationExecutor - Migration appliquee : db/schema/v1_0_init.sql (3 instruction(s))
+Colonnes de SALLES apres v1.0    : [id, nom, capacite, version]
+[INFO ] 18:35:27.803 MigrationExecutor - Migration appliquee : db/migration/v2_0_add_description.sql (3 instruction(s))
+Colonnes de SALLES apres v2.0    : [id, nom, capacite, version, description]
+Colonne description ajoutee      : true
+[INFO ] 18:35:31.806 DataInitializer - Jeu de donnees cree : 6 utilisateurs, 5 salles, 10 reservations
+[INFO ] 18:35:32.281 DataInitializer - 5 description(s) de salle renseignee(s)
+
+=== 2. SCENARIOS FONCTIONNELS ===
+[INFO ] 18:35:32.317 ReservationService - Reservation creee : Reservation#11 Salle C 2026-10-25T09:00 -> 2026-10-25T10:30 (90 min) pour alice.dupont@example.com
+Creation            : Reservation#11 Salle C 2026-10-25T09:00 -> 2026-10-25T10:30 (90 min)
+[SEVERE] 18:35:32.318 ReservationService - Echec de la creation de reservation : La salle Salle C est deja reservee sur ce creneau (1 reservation(s) en conflit)
+Conflit detecte     : La salle Salle C est deja reservee sur ce creneau (1 reservation(s) en conflit)
+[INFO ] 18:35:32.351 ReservationService - Reservation deplacee : Reservation#11 Salle C 2026-10-25T14:00 -> 2026-10-25T15:30 (90 min)
+Deplacement         : 25/10 14:00 -> 25/10 15:30
+[INFO ] 18:35:32.372 ReservationService - Reservation 11 annulee
+Annulation          : effectuee
+Reservations restantes : 10
+
+=== 3. REQUETES JPQL ET CRITERIA API ===
+JPQL  - creneaux de Salle A   : 3
+        23/10 09:00 -> 23/10 11:00 | Alice Dupont <alice.dupont@example.com>
+        23/10 11:00 -> 23/10 12:30 | Bruno Martin <bruno.martin@example.com>
+        24/10 09:00 -> 24/10 12:00 | Bruno Martin <bruno.martin@example.com>
+Criteria - capacite >= 15     : 3 reservation(s)
+Criteria - capacite >= 200    : 0 reservation(s)
+
+=== 4. VERROUILLAGE OPTIMISTE (@Version) ===
+Version lue par la session 1  : 1
+Version lue par la session 2  : 1
+Session 1 : capacite mise a jour, version = 2
+[WARNING] 18:35:32.451 MainApp - Conflit detecte, veuillez reessayer.
+Exception remontee           : OptimisticLockException
+Session 2 : conflit d'ecriture detecte, modification refusee
+Valeur finale en base        : capacite = 30, version = 2
+
+=== 5. CACHE DE SECOND NIVEAU ===
+Salle A presente dans le cache L2 : false
+Lecture 1 (session 1)          : Salle A (20 places), description = Salle Salle A - 20 places
+        lectures 1 : misses = 1, hits = 0
+Lecture 2 (session 2)          : Salle A (20 places), description = Salle Salle A - 20 places
+        lectures 2 : misses = 0, hits = 1
+Lecture 3 (session 3)          : Salle A (20 places), description = Salle Salle A - 20 places
+        lectures 3 : misses = 0, hits = 1
+Salle A presente dans le cache L2 : true
+
+=== 6. RAPPORT DE PERFORMANCE ===
+=== RAPPORT DE PERFORMANCE ===
+Sessions ouvertes             : 8
+Transactions                  : 8
+Entites chargees              : 10
+Entites inserees              : 22
+Entites mises a jour          : 7
+Entites supprimees            : 1
+Requetes HQL executees        : 15
+Requetes SQL preparees        : 51
+Cache L2 - hits               : 5
+Cache L2 - misses             : 2
+Cache L2 - puts               : 12
+Duree max d'une requete       : 7 ms
+--- Regions du cache de second niveau ---
+com.example.model.Reservation | hits = 0 | misses = 0 | puts = 3
+com.example.model.Salle | hits = 5 | misses = 2 | puts = 7
+com.example.model.Utilisateur | hits = 0 | misses = 0 | puts = 2

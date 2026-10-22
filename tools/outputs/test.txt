@@ -1,0 +1,48 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.example:reservation-salles >-------------------
+[INFO] Building Reservation de salles - TP Capstone JPA/Hibernate 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ reservation-salles ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ reservation-salles ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ reservation-salles ---
+[INFO] skip non existing resourceDirectory C:\Users\dell\.copilot\chats\997e1e62-d7f1-4fd5-bc73-dc510299c474\capstone-reservation-salles\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ reservation-salles ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ reservation-salles ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.example.ReservationTest
+[INFO ] 18:36:45.250 MigrationExecutor - Migration appliquee : db/schema/v1_0_init.sql (3 instruction(s))
+[INFO ] 18:36:45.273 MigrationExecutor - Migration appliquee : db/migration/v2_0_add_description.sql (3 instruction(s))
+[INFO ] 18:36:49.646 DataInitializer - Jeu de donnees cree : 6 utilisateurs, 5 salles, 10 reservations
+[INFO ] 18:36:49.681 DataInitializer - 5 description(s) de salle renseignee(s)
+[INFO ] 18:36:49.801 ReservationService - Reservation creee : Reservation#11 Salle Reunion 2026-11-03T09:00 -> 2026-11-03T10:00 (60 min) pour david.petit@example.com
+[INFO ] 18:36:49.817 ReservationService - Reservation 11 annulee
+[WARNING] 18:36:49.819 ReservationService - Reservation 11 introuvable, rien a annuler
+[INFO ] 18:36:49.918 ReservationService - Reservation creee : Reservation#12 Salle B 2026-11-02T10:00 -> 2026-11-02T12:00 (120 min) pour alice.dupont@example.com
+[SEVERE] 18:36:49.926 ReservationService - Echec de la creation de reservation : La salle Salle B est deja reservee sur ce creneau (1 reservation(s) en conflit)
+[INFO ] 18:36:49.982 ReservationService - Reservation creee : Reservation#13 Salle A 2026-11-01T08:00 -> 2026-11-01T09:00 (60 min) pour emma.robert@example.com
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.331 s -- in com.example.ReservationTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.382 s
+[INFO] Finished at: 2026-10-22T18:36:50Z
+[INFO] ------------------------------------------------------------------------
